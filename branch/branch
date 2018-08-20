@@ -1,0 +1,97 @@
+#!/bin/bash
+
+function list_branches
+{
+  if [ -n "$1" ] && [ "$1" = "-a" ]; then
+    git branch -a
+    exit 0
+  elif [ -z "$1" ]; then
+    git branch
+    exit 0
+  fi
+}
+
+function set_conf
+{
+  if [ -z "~/.executes/bin/.brconf" ]; then
+    echo "First configure branch"
+    exit 0
+  else 
+    DIR=$(pwd | sed 's/\//:/g')
+    CONF=$(column -t -s'=' ~/.executes/bin/.brconf | awk /$DIR/)
+    if [ -z "$CONF" ]; then
+       echo "First configure branch" 
+       exit 0
+    else
+       PREFIX=$(echo $CONF | awk '{print $NF}')
+    fi
+  fi
+}
+
+if [ -n "$1" ] && [ "$1" = "--configure" ]; then
+    bash configure "$2" "$3"
+    exit 0;
+fi
+
+list_branches "$1"
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+NAME="$1"
+
+case $key in
+    -f|--feature) #Its a feature branch
+    FEATURE="YES"
+    NAME="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -p|--pull) #Pull before branching
+    PULLED="YES"
+    git pull
+    shift # past argument
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+set_conf
+
+echo "here"
+if [ -z "$NAME" ] #If branching option provided (--pull, --feature), must contain name
+then
+  echo "Must provide branch name"
+  exit 0
+fi
+
+if [ -z "$FEATURE" ]; then
+  BRANCH_NAME="$NAME"
+else
+  BRANCH_NAME="feature/${PREFIX}-${NAME}"
+fi
+
+EXISTS=`git branch --list $BRANCH_NAME` #Check if branch already exists
+if [ -n "$EXISTS" ]
+then
+  git checkout "$BRANCH_NAME"
+  if [ -n "$PULLED" ]; then #If --pull option provided, rebase after checkout
+  git rebase @{-1}
+  fi
+  exit 1
+fi
+
+echo "Create ${BRANCH_NAME} ? y/n" #Make sure not a typo by user
+read IN
+
+if [ -z "$IN" ] || [ "$IN" == "n" ] || [ "$IN" == "N" ]
+then
+  exit 0
+fi
+
+git checkout -b "$BRANCH_NAME" #Create a new branch

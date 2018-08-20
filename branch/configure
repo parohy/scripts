@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+if [ -z "$1" ]; then
+    echo "Must provide project name"
+    exit 0
+fi
+
+PROJECT_NAME="$1"
+
+if [ -z "$2" ]; then 
+    echo "Setting default prefix from name..."
+    UPPER=$(echo $1 | tr '[:lower:]' '[:upper:]')
+    PREFIX=${UPPER:0:3}
+else
+    PREFIX=$(echo $2 | tr '[:lower:]' '[:upper:]')
+fi
+
+PWD=$(pwd)
+PROJECT=$(pwd | tr '/' ':')
+
+echo "${PROJECT}=${PROJECT_NAME}=${PREFIX}" >> ~/.executes/bin/.brconf
+
