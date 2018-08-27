@@ -63,7 +63,6 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 set_conf
 
-echo "here"
 if [ -z "$NAME" ] #If branching option provided (--pull, --feature), must contain name
 then
   echo "Must provide branch name"

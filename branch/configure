@@ -19,5 +19,19 @@ fi
 PWD=$(pwd)
 PROJECT=$(pwd | tr '/' ':')
 
-echo "${PROJECT}=${PROJECT_NAME}=${PREFIX}" >> ~/.executes/bin/.brconf
+OLD_CONFIG=$(grep $PROJECT ~/.executes/bin/.brconf)
+NEW_CONFIG="${PROJECT}=${PROJECT_NAME}=${PREFIX}"
+
+echo $OLD_CONFIG
+
+if [ -n "${OLD_CONFIG}" ]; then
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+        SED_CMD="sed -i ''"
+  else
+        SED_CMD="sed -i"
+  fi
+  $SED_CMD "s/${OLD_CONFIG}/${NEW_CONFIG}/" ~/.executes/bin/.brconf
+else
+  echo "${NEW_CONFIG}" >> ~/.executes/bin/.brconf
+fi
 

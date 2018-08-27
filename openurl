@@ -1,0 +1,5 @@
+#!/bin/bash
+
+URL="$1"
+
+xcrun simctl openurl booted $URL
