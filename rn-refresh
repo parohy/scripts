@@ -1,0 +1,17 @@
+#!/bin/bash
+
+NAME="$1"
+ACTIVITY="$2"
+
+if [ -z "$ACTIVITY" ]; then
+    ACTIVITY="MainActivity"
+fi
+
+if [ -z "$NAME" ]; then
+    echo "No app name provided. Example com.company.app_name"
+    return 0
+fi
+
+echo "Refreshing..."
+adb shell am force-stop $NAME && adb shell am start -n $NAME/$NAME.$ACTIVITY
+

@@ -7,8 +7,12 @@ cp gp ~/.executes/bin
 cp gf ~/.executes/bin
 cp branch/branch ~/.executes/bin
 cp branch/configure ~/.executes/bin
+cp openurl ~/.executes/bin
+cp refresh-rn ~/.executes/bin
 
 sudo chmod 754 ~/.executes/bin/gp
 sudo chmod 754 ~/.executes/bin/gf
 sudo chmod 754 ~/.executes/bin/branch
 sudo chmod 754 ~/.executes/bin/configure
+sudo chmod 754 ~/.executes/bin/openurl
+sudo chmod 754 ~/.executes/bin/rn-refresh
