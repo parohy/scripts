@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#check for minimal options
+if [ -z "$1" ] || [ "-d" = "$1" ]; then
+  echo "Please provide path to file"
+  exit 0
+fi
+
+PATH="$1"
+
+#check if it should be extension or new file
+ADD_EXTENSION=1
+if [ -n "$2" ] && [ "-d" = "$2" ]; then
+  ADD_EXTENSION=0
+fi
+
+#check if exists
+if ! [ -f "$PATH" ]; then
+  echo "$PATH does not exists!"
+  exit 0
+fi
+
+# Add extension to file path
+if [ $ADD_EXTENSION = 1 ]; then
+  /bin/mv "$PATH" "$PATH.nosync"
+  echo "Added extension .nosync to $PATH"
+else # Add file to directory
+  if [ -d "$PATH" ]; then #check if directory
+    touch "$PATH/.nosync"
+    echo "Added file .nosync to $PATH"
+  else
+    echo "$PATH is not a directory"
+    exit 0
+  fi
+fi
+
+exit 1
