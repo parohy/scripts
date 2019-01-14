@@ -1,8 +1,11 @@
 # Instalation 🚀
 
 1. clone repo
-2. sudo install
+2. sudo . install
 3. enjoy ❤️
+
+Instalation will create .bash_profile as well. Adds colored terminal and git-completion.
+Profile includes git branch name, dirty and stash indicator.
 
 # Content
 
