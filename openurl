@@ -1,5 +1,20 @@
 #!/bin/bash
 
-URL="$1"
+DEVICE="$1"
+URL="$2"
 
-xcrun simctl openurl booted $URL
+if [ -z "DEVICE" ]; then
+    echo "Must provide device option android OR ios."
+    exit 0
+fi
+
+if [ -z "URL"]; then
+    echo "Must provide url which should be open on device."
+    exit 0
+fi
+
+if [ "$DEVICE" == "android" ]; then
+    adb shell am start -a android.intent.action.VIEW $URL
+else
+    xcrun simctl openurl booted $URL
+fi

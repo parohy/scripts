@@ -22,13 +22,14 @@ Pull & rebase/merge is not ready yet for usage.
 *TODO: Add rebase/pull/merge support*
 
 ### openurl 🚚
-Run `openurl https://google.com` opens google on simulator. *TODO: Add android emulator support*
+Run `openurl <device> https://google.com` opens google on device.
+Option `<device>` are *android* or *ios*.
 
 ### rn-refresh 📲
 Refresh React Native app without shaking physical device. For this it is required to have adb installed globally.
 Run `rn-refresh <appname> <main_activity>` (without `<>`). `appname` is the package of the android app `com.company.appname`. `main_activity` is optional and points to the main activity of the RN application. Default is `MainActivity`.
+Run `rn-refresh -d` in order to open React-Native developer menu.
 *TODO: Add support for ios simulator*
-*TODO: `adb shell input keyevent KEYCODE_MENU` <- to open dev menu*
 
 ### nosync
 Add `.nosync` to folder or add extension.

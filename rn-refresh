@@ -3,13 +3,22 @@
 NAME="$1"
 ACTIVITY="$2"
 
-if [ -z "$ACTIVITY" ]; then
-    ACTIVITY="MainActivity"
+if [ -z "$NAME" ]; then
+    echo "No app name provided (eg. com.company.app_name) or provide option."
+    exit 0
 fi
 
-if [ -z "$NAME" ]; then
-    echo "No app name provided. Example com.company.app_name"
-    return 0
+case "$NAME" in
+    -d)
+        echo "Opening developer menu..."
+        adb shell input keyevent KEYCODE_MENU
+        exit 1
+    ;;
+esac
+
+
+if [ -z "$ACTIVITY" ]; then
+    ACTIVITY="MainActivity"
 fi
 
 echo "Refreshing..."
